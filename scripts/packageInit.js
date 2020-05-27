@@ -22,7 +22,7 @@ fs.rename('./package/project-name', './package/' + projectName, (error) => {
 let fileReplacementOptions = {
   files: [
     './package/' + projectName + '/*',
-    '/package.json',
+    'package.json',
     'package-lock.json',
     'angular.json',
     'azure-pipelines.yml',
