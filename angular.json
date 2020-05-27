@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "newProjectRoot": "package",
+  "projects": {
+    "project-name": {
+      "projectType": "library",
+      "root": "package/project-name",
+      "sourceRoot": "package/project-name/src",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "package/project-name/tsconfig.lib.json",
+            "project": "package/project-name/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "package/project-name/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "package/project-name/src/test.ts",
+            "tsConfig": "package/project-name/tsconfig.spec.json",
+            "karmaConfig": "package/project-name/karma.conf.js",
+            "codeCoverage": true,
+            "browsers": "ChromeHeadless"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "eslintConfig": ".eslintrc.js",
+            "tsConfig": ["package/project-name/tsconfig.lib.json", "package/project-name/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "project-name"
+}

@@ -1,0 +1,55 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- checkout: self
+  persistCredentials: true
+  clean: true
+
+- task: NodeTool@0
+  inputs:
+    versionSpec: '12.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install
+  displayName: 'npm install'
+
+- script: |
+    npm run lint
+  displayName: 'run linter'
+
+- task: CmdLine@2 # Push changes to GitHub (substitute your repo)
+  inputs:
+    script: |
+      git config --global user.email "username@contoso.com"
+      git config --global user.name "Azure Pipeline"
+
+- script: |
+    npm run release
+  displayName: 'Release and bump version'
+
+- script: |
+    npm run build:all-prod
+  displayName: 'Build package'
+
+- task: CopyFiles@2
+  displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+  inputs:
+    SourceFolder: '$(agent.builddirectory)'
+    Contents: '**/dist/project-name/**'
+    TargetFolder: '$(build.artifactstagingdirectory)'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+
+- task: CmdLine@2 # Push changes to GitHub (substitute your repo)
+  inputs:
+    script: |
+      git commit --allow-empty -m "chore: skip ci step. [skip ci]"
+      git push -u origin HEAD:master --follow-tags
