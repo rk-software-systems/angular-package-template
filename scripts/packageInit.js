@@ -22,6 +22,7 @@ fs.rename('./package/project-name', './package/' + projectName, (error) => {
 let fileReplacementOptions = {
   files: [
     './package/' + projectName + '/*',
+    './package/' + projectName + '/src/public-api.ts',
     'package.json',
     'package-lock.json',
     'angular.json',
