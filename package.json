@@ -8,6 +8,7 @@
     "build:all-prod": "ng run project-name:build:production",
     "build:project-name": "ng run project-name:build",
     "lint": "ng lint",
+    "lint:fix": "eslint --fix",
     "release": "standard-version -a"
   },
   "husky": {
