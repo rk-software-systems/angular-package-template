@@ -1,15 +1,15 @@
 const fs = require('fs');
-const glob = require('glob');
 
 const argv = require('minimist')(process.argv.slice(2));
 const replace = require('replace-in-file');
 
-const projectName = argv.prjectname.toString();
-const packageName = argv.packagename.toString();
-
-if (!projectName || !packageName) {
+if (!argv.projectname || !argv.packagename) {
+  console.log('Please provide "projectname" and "packagename" arguments');
   process.exit(1);
 }
+
+const projectName = argv.projectname.toString();
+const packageName = argv.packagename.toString();
 
 fs.rename('./package/project-name', './package/' + projectName, (error) => {
   if (error) {
@@ -20,7 +20,14 @@ fs.rename('./package/project-name', './package/' + projectName, (error) => {
 });
 
 let fileReplacementOptions = {
-  files: '**',
+  files: [
+    './package/' + projectName + '/*',
+    '/package.json',
+    'package-lock.json',
+    'angular.json',
+    'azure-pipelines.yml',
+    'tsconfig.json'
+  ],
   from: /project-name/g,
   to: projectName
 };
@@ -31,7 +38,7 @@ replace(fileReplacementOptions).then((results) => {
 });
 
 fileReplacementOptions = {
-  files: '**',
+  files: ['package.json', 'package-lock.json', './package/' + projectName + '/package.json'],
   from: /package-name/g,
   to: packageName
 };
