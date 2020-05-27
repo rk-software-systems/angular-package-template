@@ -36,15 +36,15 @@ let fileReplacementOptions = {
 replace(fileReplacementOptions).then((results) => {
   console.log('Succesfully replaced project-name in files.');
   console.log('Replacement results:', results);
-});
 
-fileReplacementOptions = {
-  files: ['package.json', 'package-lock.json', './package/' + projectName + '/package.json'],
-  from: /package-name/g,
-  to: packageName
-};
+  fileReplacementOptions = {
+    files: ['package.json', 'package-lock.json', './package/' + projectName + '/package.json'],
+    from: /package-name/g,
+    to: packageName
+  };
 
-replace(fileReplacementOptions).then((results) => {
-  console.log('Succesfully replaced package-name in files.');
-  console.log('Replacement results:', results);
+  replace(fileReplacementOptions).then((results) => {
+    console.log('Succesfully replaced package-name in files.');
+    console.log('Replacement results:', results);
+  });
 });
