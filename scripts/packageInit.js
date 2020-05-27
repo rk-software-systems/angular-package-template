@@ -24,7 +24,6 @@ let fileReplacementOptions = {
     './package/' + projectName + '/*',
     './package/' + projectName + '/src/public-api.ts',
     'package.json',
-    'package-lock.json',
     'angular.json',
     'azure-pipelines.yml',
     'tsconfig.json'
@@ -38,7 +37,7 @@ replace(fileReplacementOptions).then((results) => {
   console.log('Replacement results:', results);
 
   fileReplacementOptions = {
-    files: ['package.json', 'package-lock.json', './package/' + projectName + '/package.json'],
+    files: ['package.json', './package/' + projectName + '/package.json'],
     from: /package-name/g,
     to: packageName
   };
@@ -47,4 +46,12 @@ replace(fileReplacementOptions).then((results) => {
     console.log('Succesfully replaced package-name in files.');
     console.log('Replacement results:', results);
   });
+});
+
+fs.unlink('package-lock.json', (error) => {
+  if (error) {
+    console.log('Warning!!! Failed to delete package-lock.json, please check and delete it manually!');
+  } else {
+    console.log('Succesfully deleted package-lock.json to avoid naming collisinos');
+  }
 });
